@@ -21,7 +21,6 @@ bool LIF::update(float& input) {
 }
 
 LIFNeuronLayer::LIFNeuronLayer(int size) : size(size), states(size), out(size) {}
-LIFNeuronLayer::LIFNeuronLayer():{}
 
 void LIFNeuronLayer::reset_states() {
     for (int i = 0; i < size; ++i) {
@@ -29,7 +28,7 @@ void LIFNeuronLayer::reset_states() {
     }
 }
 
-void LIFNeuronLayer::state_update(float& state, const float& inp) {
+void LIFNeuronLayer::state_update(float& state, float& inp) {
     if (state <= 0) {
         state = inp; // avoid multiply
     } else {
@@ -37,7 +36,7 @@ void LIFNeuronLayer::state_update(float& state, const float& inp) {
     }
 }
 
-std::vector<bool> LIFNeuronLayer::update(const std::vector<float>& input) {
+std::vector<bool> LIFNeuronLayer::update(std::vector<float>& input) {
     // now zero reset
     for (int i = 0; i < input.size(); ++i) {
         state_update(states[i], input[i]);
@@ -54,11 +53,10 @@ std::vector<bool> LIFNeuronLayer::update(const std::vector<float>& input) {
 
 AccumLinear::AccumLinear(int nr_ins, int nr_outs) : nr_ins(nr_ins), nr_outs(nr_outs), weights(nr_ins, std::vector<float>(nr_outs, 0.0)), out(nr_outs, 0.0) {}
 
-AccumLinear::AccumLinear(int nr_ins, int nr_outs, const std::vector<std::vector<float>>& weights) : nr_ins(nr_ins), nr_outs(nr_outs), weights(weights), out(nr_outs, 0.0) {}
+AccumLinear::AccumLinear(int nr_ins, int nr_outs, std::vector<std::vector<float>>& weights) : nr_ins(nr_ins), nr_outs(nr_outs), weights(weights), out(nr_outs, 0.0) {}
 
-AccumLinear::AccumLinear() :{}
 
-std::vector<float> AccumLinear::forward(const std::vector<bool>& input) {
+std::vector<float> AccumLinear::forward(std::vector<bool>& input) {
     // Initialize output array to zero
     std::fill(out.begin(), out.end(), 0.0);
 

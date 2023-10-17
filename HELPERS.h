@@ -29,10 +29,10 @@ public:
 
     // constructors
     LIFNeuronLayer(int size);
-    LIFNeuronLayer();
+
     void reset_states();
-    void state_update(float& state, const float& inp);
-    std::vector<bool> update(const std::vector<float>& input);
+    void state_update(float& state, float& inp);
+    std::vector<bool> update(std::vector<float>& input);
 };
 
 class AccumLinear {
@@ -43,16 +43,15 @@ public:
     std::vector<float> out;
 
     // constructor default
-    AccumLinear();
 
     // Constructor with initialization
     AccumLinear(int nr_ins, int nr_outs);
 
     // Constructor with provided weights
-    AccumLinear(int nr_ins, int nr_outs, const std::vector<std::vector<float>>& weights);
+    AccumLinear(int nr_ins, int nr_outs, std::vector<std::vector<float>>& weights);
 
     // Function to perform the forward pass
-    std::vector<float> forward(const std::vector<bool>& input);
+    std::vector<float> forward(std::vector<bool>& input);
 };
 
 #endif // NEURAL_NETWORK_H
