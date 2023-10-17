@@ -5,7 +5,7 @@
 class LIF{
     public:
         float beta;
-        constexpr static int threshold = 1;
+        const int threshold = 1;
         float state;
 
         // constructors
@@ -133,14 +133,14 @@ class AccumLinear {
 public:
     int nr_ins;
     int nr_outs;
-    std::vector<std::vector<float>> weights;
+    std::vector<std::vector<float> > weights;
     std::vector<float> out;
 
     // Constructor with initialization
     AccumLinear(int nr_ins, int nr_outs) : nr_ins(nr_ins), nr_outs(nr_outs), weights(nr_ins, std::vector<float>(nr_outs, 0.0)), out(nr_outs, 0.0) {}
 
     // Constructor with provided weights
-    AccumLinear(int nr_ins, int nr_outs, const std::vector<std::vector<float>>& weights) : nr_ins(nr_ins), nr_outs(nr_outs), weights(weights), out(nr_outs, 0.0) {}
+    AccumLinear(int nr_ins, int nr_outs, const std::vector<std::vector<float> >& weights) : nr_ins(nr_ins), nr_outs(nr_outs), weights(weights), out(nr_outs, 0.0) {}
 
     // Function to perform the forward pass
     std::vector<float> forward(const std::vector<bool>& input) {
@@ -176,14 +176,14 @@ int main(){
 
 
     // float in[2] = {.3, .4};
-    std::vector<float> in = {.3, 1};
+    // std::vector<float> in = {.3, 1};
     
     // Example usage
     const int nr_ins = 3;
     const int nr_outs = 2;
 
      // Initialize weights
-    const std::vector<std::vector<float>> input_weights = {{.30, .40}, {.70, -.30}, {-.20, .0}};
+    const std::vector<std::vector<float> > input_weights = {{.30, .40}, {.70, -.30}, {-.20, .0}};
 
     // Create AccumLinear instance
     AccumLinear accumLinear(nr_ins, nr_outs, input_weights);
