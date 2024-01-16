@@ -47,6 +47,7 @@ public:
     LIF_non_spiking(int size) : size(size), states(size, 0) {};
 
     void reset_states();
+    void initialize(const int size);
     std::vector<float> update(std::vector<float>& input);
 };
 
@@ -55,6 +56,7 @@ class LIFNeuronLayer_var_beta_fused {
 public:
     int size;
     int nr_outs;
+    bool reset; // saves if reset needs to be applied or not
     std::vector<float> bias;
     // std::vector<float> output(nr_outs);
     // std::vector<bool> out;

@@ -56,14 +56,16 @@ void LIF_non_spiking::reset_states(){
     std::vector<float> states(size, 0);
 };
 
+void LIF_non_spiking::initialize(const int size){
+    this->size = size;
+    this->states = std::vector<float>(size, 0);
+};
+
 std::vector<float> LIF_non_spiking::update(std::vector<float>& input) {
     for (int i = 0; i < size; ++i) {
-        if (states[i] <= 0) {
-            states[i] = input[i]; // avoid multiply
-        }
-        else {
+
             states[i] = states[i] * beta + input[i];
-        }
+        
     }
 return states;
 }
@@ -87,25 +89,27 @@ std::vector<float> LIFNeuronLayer_var_beta_fused::update(std::vector<float>& inp
     // now zero reset
     // state_update(input);
     // std::vector<float> output = bias;
-    std::vector<float> output(bias);
+    std::vector<float> output_lif(bias);
+    // std::vector<bool> spikes(bias.size(),false);
 
     for (int i = 0; i < size; ++i) {
-        if (states[i] <= 0) {
-            states[i] = input[i]; // avoid multiply
-        }
-        else {
-            states[i] = states[i] * betas[i] + input[i];
-        }
-        // in snntorch the threshold check is an elif statement so that it only does it the next step
+        states[i] = states[i] * betas[i] + input[i];
+        // in snntorch the threshold check affects output but not yet resetted, this only happens in next step
+        // doesnt matter for hidden layer but matters for last? idk
         if (states[i] > thresholds[i]) {
+            
+            // spikes[i] = 1;
             states[i] = states[i] - thresholds[i]; // subtract reset mechanism
             for (int j = 0; j < nr_outs; ++j) {
-                output[j] += weights[i][j] + bias[j];
+
+                output_lif[j] += weights[j][i];
             }
+
             
         }
+        
     }
-    return output;
+    return output_lif;
 }
 
 AccumLinear::AccumLinear(int nr_ins, int nr_outs) : nr_ins(nr_ins), nr_outs(nr_outs), weights(nr_ins, std::vector<float>(nr_outs, 0.0)), out(nr_outs, 0.0) {}

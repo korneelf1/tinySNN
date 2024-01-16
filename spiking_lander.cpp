@@ -338,7 +338,7 @@ public:
     // IFNeuronLayer_var_beta_fused lif1_hidden1(SNN::hidden1,hidden2,betas1,thresholds1,lin2_weights,bias2);
     // LIFNeuronLayer_var_beta_fused lif2_hidden2(hidden2,output,betas2,thresholds2,lin3_weights,bias3);
     // LIF_non_spiking output_layer(output);
-  
+
     // constructor
     SNN() {
       create_network();
@@ -348,7 +348,7 @@ public:
   void create_network() {  
     lif1_hidden1.initialize(hidden1,hidden2,betas1,thresholds1,lin2_weights,bias2);
     lif2_hidden2.initialize(hidden2,output,betas2,thresholds2,lin3_weights,bias3);
-    LIF_non_spiking output_layer(output);
+    output_layer.initialize(output);
 
     std::vector<float> spike_encoding(hidden1,0);
     std::vector<float> lif1_out(hidden1,0);
@@ -368,27 +368,32 @@ public:
     std::vector<float> lif2_out(output,0);
     std::vector<float> output_out(output,0);
     for (int i = 0; i < hidden1; i++) {
-      spike_encoding[i] = input*lin1_weights[i][0] + bias1[i]; // idk if correct
+      spike_encoding[i] = input*lin1_weights[i][0]/2.5 + bias1[i]; // idk if correct
       }
     
     lif1_out = lif1_hidden1.update(spike_encoding);
     lif2_out = lif2_hidden2.update(lif1_out);
-    std::cout << "lif2_out: " << lif2_out.size() << std::endl;
-    return output_layer.update(lif2_out);
+
+    output_out = output_layer.update(lif2_out);
+    return output_out;
+    // return output_out;
   };
 };
 
 int main() {
   SNN s;
-  std::cout << "Test1" << std::endl;
-  std::vector<float> result = s.forward(1.);
-  std::vector<float> result1 = s.forward(.5);
-  std::vector<float> result2 = s.forward(.7);
-  std::vector<float> result3 = s.forward(1.);
-  std::vector<float> result4 = s.forward(1.2);
-  for (int i = 0; i < 7; i++) {
-    std::cout << "element: "<< i << std::endl;
-  }
-  std::cout << std::endl;
+  s.reset_network();
+  std::vector<float> inputs = {1.1000, 1.0999, 1.1001, 1.1004, 1.1007, 1.1009, 1.1009, 1.1009, 1.1009,
+         1.1009, 1.1009, 1.1009, 1.1009, 1.1009, 1.1009, 1.1008, 1.1007, 1.1007,
+         1.1006, 1.1006};
+
+  for (int j=0;j<3;j++){
+  std::vector<float> output_out = s.forward(inputs[j]);
+  std::cout << "For input: " << inputs[j] << std::endl;
+  for (int i=0; i<7;i++){
+  std::cout << "element "<< i <<": "<< output_out[i] << std::endl;
+  };
+
+  };
   return 0;
 };
