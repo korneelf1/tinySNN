@@ -387,7 +387,7 @@ int main() {
          1.1009, 1.1009, 1.1009, 1.1009, 1.1009, 1.1009, 1.1008, 1.1007, 1.1007,
          1.1006, 1.1006};
 
-  for (int j=0;j<3;j++){
+  for (int j=0;j<20;j++){
   std::vector<float> output_out = s.forward(inputs[j]);
   std::cout << "For input: " << inputs[j] << std::endl;
   for (int i=0; i<7;i++){
