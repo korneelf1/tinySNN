@@ -1,56 +1,10 @@
 // NeuralNetwork.cpp
 
 #include "HELPERS.h"
-#include <algorithm> // for std::fill
+#include <cmath> // for exp
+#include <random> // sampling
+#include <algorithm> // max_element
 #include <vector>
-
-void LIF::reset() {
-    this->state = 0;
-}
-
-bool LIF::update(float& input) {
-    if (state <= 0) {
-        state = input; // avoid multiply
-    } else {
-        state = state * beta + input;
-    }
-    if (state > threshold) {
-        state = 0;
-        return true;
-    }
-    return false;
-}
-
-LIFNeuronLayer::LIFNeuronLayer(int size) : size(size), states(size), out(size) {}
-
-void LIFNeuronLayer::reset_states() {
-    for (int i = 0; i < size; ++i) {
-        states[i] = 0;
-    }
-}
-
-void LIFNeuronLayer::state_update(float& state, float& inp) {
-    if (state <= 0) {
-        state = inp; // avoid multiply
-    } else {
-        state = state * beta + inp;
-    }
-}
-
-std::vector<bool> LIFNeuronLayer::update(std::vector<float>& input) {
-    // now zero reset
-    for (int i = 0; i < input.size(); ++i) {
-        state_update(states[i], input[i]);
-
-        if (states[i] > threshold) {
-            states[i] = 0;
-            out[i] = true;
-        } else {
-            out[i] = false;
-        }
-    }
-    return out;
-}
 
 void LIF_non_spiking::reset_states(){
     std::vector<float> states(size, 0);
@@ -112,21 +66,29 @@ std::vector<float> LIFNeuronLayer_var_beta_fused::update(std::vector<float>& inp
     return output_lif;
 }
 
-AccumLinear::AccumLinear(int nr_ins, int nr_outs) : nr_ins(nr_ins), nr_outs(nr_outs), weights(nr_ins, std::vector<float>(nr_outs, 0.0)), out(nr_outs, 0.0) {}
+void Softmax_Multinomial::initialize(const int size){
+    this->size = size;
+};
 
-AccumLinear::AccumLinear(int nr_ins, int nr_outs, std::vector<std::vector<float>>& weights) : nr_ins(nr_ins), nr_outs(nr_outs), weights(weights), out(nr_outs, 0.0) {}
+float Softmax_Multinomial::compute(std::vector<float>& input) {
+    std::vector<float> probabilities(size);
+    float max_val = *std::max_element(input.begin(), input.end());
+    float exp_sum = 0.0;
 
+    for (int i=0;i<size;i++) {
+        float exp_val = std::exp(input[i] - max_val);
+        probabilities[i] = exp_val;
+        exp_sum += exp_val;
+    };
 
-std::vector<float> AccumLinear::forward(std::vector<bool>& input) {
-    // Initialize output array to zero
-    std::fill(out.begin(), out.end(), 0.0);
-
-    for (int i = 0; i < nr_ins; i++) {
-        if (input[i]) {
-            for (int j = 0; j < nr_outs; ++j) {
-                out[j] += weights[i][j];
-            }
-        }
+    for (float& val : probabilities) {
+        val /= exp_sum;
     }
-    return out;
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::discrete_distribution<> dist(probabilities.begin(), probabilities.end());
+
+    std::vector<float> actions = {-1., -0.66666667, -0.33333333, 0., 0.33333333, 0.66666667, 1.};
+    return actions[dist(gen)];
+
 }

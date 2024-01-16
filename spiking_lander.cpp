@@ -382,18 +382,33 @@ public:
 
 int main() {
   SNN s;
+  Softmax_Multinomial postprocessor;
+  postprocessor.initialize(7);
+  float action;
   s.reset_network();
   std::vector<float> inputs = {1.1000, 1.0999, 1.1001, 1.1004, 1.1007, 1.1009, 1.1009, 1.1009, 1.1009,
          1.1009, 1.1009, 1.1009, 1.1009, 1.1009, 1.1009, 1.1008, 1.1007, 1.1007,
          1.1006, 1.1006};
 
-  for (int j=0;j<3;j++){
+  for (int j=0;j<20;j++){
   std::vector<float> output_out = s.forward(inputs[j]);
-  std::cout << "For input: " << inputs[j] << std::endl;
-  for (int i=0; i<7;i++){
-  std::cout << "element "<< i <<": "<< output_out[i] << std::endl;
-  };
+  action = postprocessor.compute(output_out);
+  // std::cout << "For input: " << inputs[j] << std::endl;
+
+  std::cout << "action: "<< action << std::endl;
+  
 
   };
+  for (int j=0;j<20;j++){
+  s.reset_network();
+  std::vector<float> output_out = s.forward(inputs[j]);
+  action = postprocessor.compute(output_out);
+  // std::cout << "For input: " << inputs[j] << std::endl;
+
+  std::cout << "action: "<< action << std::endl;
+  
+
+  };
+
   return 0;
 };
