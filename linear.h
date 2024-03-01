@@ -22,4 +22,4 @@ linear build_linear(int const in_size, int const out_size);
 void load_weights(linear *l, linear_conf const *conf);
 void destroy_linear(linear *l);
 
-float* linear_forward(linear l, float *input);
+float* linear_forward(linear *l, float *input);

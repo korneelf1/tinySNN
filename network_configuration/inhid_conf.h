@@ -1,13 +1,15 @@
+#pragma once
+
 #include "../linear.h"
 
-int const in_size = 1;
-int const out_size = 32;
+static int const in_size_inhid = 1;
+static int const out_size_inhid = 32;
 
-float const bias[32] = {0.0697,  0.4583, -0.5218, -1.3014, -0.1291,  0.3119, -0.3237,  0.5076,
+static float const bias_inhid[32] = {0.0697,  0.4583, -0.5218, -1.3014, -0.1291,  0.3119, -0.3237,  0.5076,
         -1.4740, -0.1325,  0.2204,  0.0082, -0.2422, -0.3937,  0.7985, -0.0799,
         -0.1997,  0.6957, -0.4548,  0.7104, -1.0858,  0.8583, -3.7546,  1.2568,
          0.4513, -0.2367, -0.2672,  0.4475,  0.3577,  0.3180, -0.1167, -0.1329};
-float const weights[32*1] =  {-0.1979,
+static float const weights_inhid[32*1] =  {-0.1979,
         -0.6615,
          0.0488,
         -0.4465,
@@ -40,4 +42,4 @@ float const weights[32*1] =  {-0.1979,
          0.9482,
         -1.0600};
 
-linear_conf const conf_inhid = {in_size, out_size, bias, weights};
+linear_conf const conf_inhid = {in_size_inhid, out_size_inhid, bias_inhid, weights_inhid};

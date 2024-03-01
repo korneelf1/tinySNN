@@ -25,7 +25,7 @@ void destroy_linear(linear* layer) {
     free(layer);
 };
 
-float* forward_linear(linear* layer, float* input) {
+float* linear_forward(linear* layer, float* input) {
     for (int i=0;i<layer->out_size;i++){
         for (int j=0;j<layer->in_size;j++){
             layer->output[i] += layer->weights[i*layer->in_size + j] * input[j];

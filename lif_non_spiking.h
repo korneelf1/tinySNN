@@ -17,7 +17,7 @@ float* update(LIF_non_spiking* lif, float* input);
 
 typedef struct LIF_non_spiking_conf{
     int const size;
-    float const beta;
+    const float beta;
 } LIF_non_spiking_conf;
 
 void load_lif_non_spiking_from_conf(LIF_non_spiking *lif, LIF_non_spiking_conf const *conf);

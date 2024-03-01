@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-SNN build_snn(int const in_size, int const out_size, int const hidden_size){
-    SNN snn;
+network build_snn(int const in_size, int const out_size, int const hidden_size){
+    network snn;
     snn.in_size = in_size;
     snn.out_size = out_size;
     snn.hidden_size = hidden_size;
@@ -36,24 +36,31 @@ SNN build_snn(int const in_size, int const out_size, int const hidden_size){
     return snn; 
 };
 
-void reset_net(SNN* snn){
+void reset_net(network* snn){
     reset_lif(snn->hidhid);
     reset_lif(snn->hidout);
-    reset_state(snn->output);
+    reset_states(snn->output);
 };
 
-float* forward(SNN* snn, float* input){
-    float* inhid_out = forward_linear(snn->inhid, input);
+float* forward(network* snn, float* input){
+    float* inhid_out = linear_forward(snn->inhid, input);
     float* hidhid_out = update_lif(snn->hidhid, inhid_out);
     float* hidout_out = update_lif(snn->hidout, hidhid_out);
     float* output = update(snn->output, hidout_out);
     return output;
 };
 
-void destroy_net(SNN* snn){
+void destroy_net(network* snn){
     destroy_linear(snn->inhid);
     destroy_lif(snn->hidhid);
     destroy_lif(snn->hidout);
     destroy(snn->output);
     free(snn);
 };
+
+int main() {
+    network snn = build_snn(1, 7, 32);
+    float input[1] = {0.0f};
+    destroy_net(&snn);
+    return 0;
+}

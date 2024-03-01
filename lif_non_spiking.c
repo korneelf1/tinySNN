@@ -11,7 +11,7 @@ LIF_non_spiking build_lif_non_spiking(int const size) {
 };
 
 
-void reset_state(LIF_non_spiking* lif) {
+void reset_states(LIF_non_spiking* lif) {
     // lif->size=7;
     lif->beta=0.8798;
     for (int i=0;i<lif->size;i++){

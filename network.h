@@ -4,19 +4,19 @@
 #include "lif_non_spiking.h"
 #include "linear.h"
 
-typedef struct SNN{
+typedef struct network{
     int in_size, out_size, hidden_size;
 
     linear *inhid;
     lif *hidhid;
     lif *hidout;
     LIF_non_spiking *output;
- } SNN;
+ } network;
 
-SNN build_snn(int const in_size, int const out_size, int const hidden_size);
+network build_snn(int const in_size, int const out_size, int const hidden_size);
 
-void reset_net(SNN* snn);
+void reset_net(network* snn);
 
-float* forward(SNN* snn, float* input);
+float* forward(network* snn, float* input);
 
-void destroy_net(SNN* snn);
+void destroy_net(network* snn);
