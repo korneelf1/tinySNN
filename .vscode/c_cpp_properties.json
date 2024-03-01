@@ -1,9 +1,9 @@
 {
     "configurations": [
         {
-            "name": "G++",
+            "name": "G++_ignore",
             "includePath": [
-                "${workspaceFolder}/**"
+                "/Users/korneel/coding/tinySNN/**"
             ],
             "defines": [],
             "macFrameworkPath": [
@@ -12,7 +12,53 @@
             "compilerPath": "/usr/bin/g++",
             "cStandard": "c17",
             "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-arm64",
+            "compilerPathInCppPropertiesJson": "/usr/bin/g++",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "/Users/korneel/coding/tinySNN/**",
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        },
+        {
+            "name": "C++",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
             "intelliSenseMode": "macos-clang-arm64"
+        },
+        {
+            "name": "G++",
+            "includePath": [
+                "/Users/korneel/coding/tinySNN/**"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-arm64",
+            "compilerPathInCppPropertiesJson": "/usr/bin/clang",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "/Users/korneel/coding/tinySNN/**",
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
         }
     ],
     "version": 4

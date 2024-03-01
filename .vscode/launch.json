@@ -2,6 +2,18 @@
     "configurations": [
         
         {
+            "name": "(lldb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/a.out",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb"
+        },
+        {
             "name": "C/C++: g++ build and debug active file",
             "type": "cppdbg",
             "request": "launch",
@@ -15,7 +27,7 @@
             "preLaunchTask": "C/C++: g++ build active file"
         },
         {
-            "name": "C/C++: clang++ build and debug active file",
+            "name": "C/C++: gcc build and debug active file",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
@@ -25,20 +37,7 @@
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
-            "preLaunchTask": "C/C++: clang++ build active file"
-        },
-        {
-            "name": "C/C++: clang build and debug active file",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "lldb",
-            "preLaunchTask": "C/C++: clang build active file"
+            "preLaunchTask": "C/C++: gcc build active file"
         }
     ],
     "version": "2.0.0"
